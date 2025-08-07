@@ -1,0 +1,33 @@
+# Virtual environments
+.venv/
+course_env/
+fresh_venv/
+venv/
+__pycache__/
+*.pyc
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Test files
+test_server.py
+vector_store_simple.py
+
+# Logs and databases (will be mounted as volumes)
+*.log
+chroma_db/
+
+# Temporary files
+*.tmp
+*.temp
