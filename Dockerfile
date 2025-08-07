@@ -14,7 +14,6 @@ RUN pip install uv
 
 # Copy project files
 COPY pyproject.toml ./
-COPY .env* ./
 
 # Install basic dependencies with uv
 RUN uv sync

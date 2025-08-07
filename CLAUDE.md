@@ -43,12 +43,12 @@ uv add package-name
 For Intel Macs experiencing PyTorch compatibility issues:
 
 ```bash
-# Build and run with Docker Compose
+# Build and run with Docker Compose (recommended)
 docker-compose up --build
 
 # Or build and run manually
 docker build -t rag-chatbot .
-docker run -p 8000:8000 --env-file .env rag-chatbot
+docker run -p 8000:8000 -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY rag-chatbot
 ```
 
 ### Access Points
