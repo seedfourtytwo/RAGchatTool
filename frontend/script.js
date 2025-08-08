@@ -122,10 +122,29 @@ function addMessage(content, type, sources = null, isWelcome = false) {
     let html = `<div class="message-content">${displayContent}</div>`;
     
     if (sources && sources.length > 0) {
+        // Handle both old format (string array) and new format (object array with links)
+        let sourcesHtml;
+        if (typeof sources[0] === 'string') {
+            // Legacy format - plain text sources
+            sourcesHtml = sources.join(', ');
+        } else if (sources[0] && typeof sources[0] === 'object' && sources[0].name) {
+            // New format - sources with links
+            sourcesHtml = sources.map(source => {
+                if (source.link) {
+                    return `<a href="${source.link}" target="_blank" rel="noopener noreferrer">${source.name}</a>`;
+                } else {
+                    return source.name;
+                }
+            }).join(', ');
+        } else {
+            // Fallback - convert to string
+            sourcesHtml = sources.map(s => String(s)).join(', ');
+        }
+        
         html += `
             <details class="sources-collapsible">
                 <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
+                <div class="sources-content">${sourcesHtml}</div>
             </details>
         `;
     }

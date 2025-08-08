@@ -1,4 +1,4 @@
-from typing import Dict, Any, Optional, Protocol
+from typing import Dict, Any, Optional
 from abc import ABC, abstractmethod
 from vector_store import VectorStore, SearchResults
 
@@ -22,7 +22,7 @@ class CourseSearchTool(Tool):
     
     def __init__(self, vector_store: VectorStore):
         self.store = vector_store
-        self.last_sources = []  # Track sources from last search
+        self.last_sources = []  # Track sources from last search with links
     
     def get_tool_definition(self) -> Dict[str, Any]:
         """Return Anthropic tool definition for this tool"""
@@ -88,7 +88,7 @@ class CourseSearchTool(Tool):
     def _format_results(self, results: SearchResults) -> str:
         """Format search results with course and lesson context"""
         formatted = []
-        sources = []  # Track sources for the UI
+        sources = []  # Track sources with links for the UI
         
         for doc, meta in zip(results.documents, results.metadata):
             course_title = meta.get('course_title', 'unknown')
@@ -100,11 +100,22 @@ class CourseSearchTool(Tool):
                 header += f" - Lesson {lesson_num}"
             header += "]"
             
-            # Track source for the UI
-            source = course_title
+            # Track source with link for the UI
+            source_name = course_title
             if lesson_num is not None:
-                source += f" - Lesson {lesson_num}"
-            sources.append(source)
+                source_name += f" - Lesson {lesson_num}"
+                # Get lesson link from vector store
+                lesson_link = self.store.get_lesson_link(course_title, lesson_num)
+            else:
+                # No specific lesson, get course link
+                lesson_link = self.store.get_course_link(course_title)
+            
+            # Store as dict with name and link
+            source_data = {
+                'name': source_name,
+                'link': lesson_link
+            }
+            sources.append(source_data)
             
             formatted.append(f"{header}\n{doc}")
         
