@@ -9,7 +9,7 @@
 :root {
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
-    --background: #0f172a;
+    --background: #f8e4ef;
     --surface: #1e293b;
     --surface-hover: #334155;
     --text-primary: #f1f5f9;
@@ -26,7 +26,7 @@
 
 /* Light Theme Variables */
 [data-theme="light"] {
-    --background: #ffffff;
+    --background: #fdf2f8;
     --surface: #f8fafc;
     --surface-hover: #f1f5f9;
     --text-primary: #1e293b;
